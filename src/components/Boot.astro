@@ -1,0 +1,77 @@
+---
+import { t, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  lines: string[];
+}
+
+const { lang, lines } = Astro.props;
+---
+
+<!-- 開機動畫：每個分頁只播一次、約 1 秒，按任意鍵略過；減少動態偏好時不播 -->
+<template id="boot-template">
+  <div class="boot mono" role="presentation">
+    <pre class="boot-out"></pre>
+    <p class="boot-hint">{t(lang, 'boot.skip')}</p>
+  </div>
+</template>
+
+<script is:inline define:vars={{ lines }}>
+  (() => {
+    let seen = false;
+    try {
+      seen = sessionStorage.getItem('booted') === '1';
+      sessionStorage.setItem('booted', '1');
+    } catch {}
+    if (seen || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const tpl = document.getElementById('boot-template');
+    const el = tpl.content.firstElementChild.cloneNode(true);
+    const out = el.querySelector('.boot-out');
+    document.body.appendChild(el);
+
+    let i = 0;
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      el.classList.add('boot--out');
+      setTimeout(() => el.remove(), 250);
+      removeEventListener('keydown', finish);
+      removeEventListener('pointerdown', finish);
+    };
+    addEventListener('keydown', finish);
+    addEventListener('pointerdown', finish);
+
+    const tick = () => {
+      if (done) return;
+      if (i < lines.length) {
+        out.textContent += lines[i++] + '\n';
+        setTimeout(tick, 150);
+      } else {
+        setTimeout(finish, 250);
+      }
+    };
+    tick();
+  })();
+</script>
+
+<style is:global>
+  .boot {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 max(1.25rem, calc(50vw - 520px));
+    background: var(--bg);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    transition: opacity 0.25s;
+  }
+  .boot--out { opacity: 0; }
+  .boot-out { margin: 0; font: inherit; white-space: pre-wrap; line-height: 1.8; }
+  .boot-hint { margin-top: 2rem; color: var(--text-faint); font-size: 0.75rem; }
+</style>

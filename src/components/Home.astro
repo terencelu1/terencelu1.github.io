@@ -1,0 +1,222 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Boot from './Boot.astro';
+import ProjectCard from './ProjectCard.astro';
+import { log, awardCount } from '../data/log';
+import { t, localePath, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const featured = (await getCollection('projects', (e) => e.id.startsWith(`${lang}/`) && e.data.featured)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const slugOf = (id: string) => id.split('/')[1];
+const total = (await getCollection('projects', (e) => e.id.startsWith(`${lang}/`))).length;
+
+const research = [
+  { id: 'mmwave', title: t(lang, 'research.mmwave.title'), body: t(lang, 'research.mmwave.body') },
+  { id: 'edge', title: t(lang, 'research.edge.title'), body: t(lang, 'research.edge.body') },
+];
+
+const bootLines = [
+  'portfolio-os v3.0 — boot',
+  '[ ok ] mount  ~/research   mmwave · edge',
+  `[ ok ] load   ~/projects   ${total} entries`,
+  `[ ok ] load   ~/log        ${awardCount} awards`,
+  'ready.',
+];
+---
+
+<Base lang={lang} active="home">
+  <Boot lang={lang} lines={bootLines} />
+
+  <!-- ─── Hero ─────────────────────────────────────── -->
+  <section class="container hero">
+    <div class="window hero-term">
+      <div class="window-bar">
+        <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+        <span>~ — zsh</span>
+      </div>
+      <div class="window-body hero-body">
+        <p class="prompt mono"><span class="ps1">$</span> whoami</p>
+        <h1>{lang === 'zh' ? <>盧亭潤 <span class="en-name">Terence Lu</span></> : 'Terence Lu'}</h1>
+        <p class="role mono">{t(lang, 'hero.role')}</p>
+        <p class="intro">{t(lang, 'hero.intro')}</p>
+        <p class="prompt mono"><span class="ps1">$</span><span class="cursor" aria-hidden="true"></span></p>
+      </div>
+    </div>
+
+    <aside class="window hero-status" aria-label="status">
+      <div class="window-bar"><span>status</span></div>
+      <dl class="status mono">
+        <div><dt>{t(lang, 'status.focus')}</dt><dd class="hl">{t(lang, 'status.focusValue')}</dd></div>
+        <div><dt>{t(lang, 'status.awards')}</dt><dd>{awardCount}</dd></div>
+        <div><dt>{t(lang, 'status.location')}</dt><dd>{t(lang, 'status.locationValue')}</dd></div>
+        <div><dt>{t(lang, 'status.time')}</dt><dd id="clock">--:--:--</dd></div>
+      </dl>
+      <div class="window-bar tree-bar"><span>fs.tree</span></div>
+      <pre class="tree mono">~/
+├── <a href="#research">research/</a>
+├── <a href={localePath(lang, '/projects/')}>projects/</a>
+└── <a href="#log">log/</a></pre>
+    </aside>
+  </section>
+
+  <!-- ─── Research ─────────────────────────────────── -->
+  <section class="container section" id="research">
+    <div class="section-head">
+      <span class="path">~/research</span>
+      <h2>{t(lang, 'research.title')}</h2>
+      <span class="rule"></span>
+      <span class="badge badge--muted">{t(lang, 'research.status')}</span>
+    </div>
+    <div class="research-grid">
+      {
+        research.map((r, i) => (
+          <article class="research-card">
+            <p class="idx mono">0{i + 1} / {r.id}</p>
+            <h3>{r.title}</h3>
+            <p>{r.body}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ─── Projects ─────────────────────────────────── -->
+  <section class="container section" id="projects">
+    <div class="section-head">
+      <span class="path">~/projects</span>
+      <h2>{t(lang, 'projects.title')}</h2>
+      <span class="rule"></span>
+    </div>
+    <div class="project-grid">
+      {featured.map((p) => <ProjectCard lang={lang} project={p} slug={slugOf(p.id)} />)}
+    </div>
+    <p class="all mono"><a href={localePath(lang, '/projects/')}>→ {t(lang, 'projects.viewAll')} ({total})</a></p>
+  </section>
+
+  <!-- ─── Log ──────────────────────────────────────── -->
+  <section class="container section" id="log">
+    <div class="section-head">
+      <span class="path">~/log</span>
+      <h2>{t(lang, 'log.title')}</h2>
+      <span class="rule"></span>
+    </div>
+    <ol class="log">
+      {
+        log.map((e) => (
+          <li class:list={['log-row', `log-row--${e.kind}`]}>
+            <span class="log-date mono">{e.date}</span>
+            <span class="log-text">
+              {e.award && <span class="badge">{e.award[lang]}</span>}
+              {e.text[lang]}
+            </span>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+</Base>
+
+<script>
+  const clock = document.getElementById('clock');
+  const fmt = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Asia/Taipei',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+  });
+  const tick = () => clock && (clock.textContent = `${fmt.format(new Date())} UTC+8`);
+  tick();
+  setInterval(tick, 1000);
+</script>
+
+<style>
+  /* Hero */
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 1.25rem;
+    padding-top: 3.5rem;
+    align-items: start;
+  }
+
+  .hero-body { padding: 2rem 2.25rem 1.75rem; }
+
+  .prompt { margin: 0; color: var(--text-muted); font-size: 0.9rem; }
+  .ps1 { color: var(--accent); margin-right: 0.6rem; }
+
+  h1 {
+    margin: 0.9rem 0 0.4rem;
+    font-size: clamp(2.1rem, 5vw, 3.1rem);
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .en-name { color: var(--text-muted); font-weight: 500; font-size: 0.62em; letter-spacing: 0; margin-left: 0.3em; }
+
+  .role { margin: 0 0 1.4rem; color: var(--accent); font-size: 0.95rem; }
+
+  .intro { margin: 0 0 1.6rem; max-width: 62ch; color: var(--text); }
+
+  .status { margin: 0; padding: 1rem 1.1rem; font-size: 0.82rem; }
+  .status div { display: flex; justify-content: space-between; gap: 1rem; padding: 0.35rem 0; }
+  .status div + div { border-top: 1px dashed var(--border); }
+  dt { color: var(--text-faint); }
+  dd { margin: 0; color: var(--text); text-align: right; }
+  dd.hl { color: var(--accent); }
+
+  .tree-bar { border-top: 1px solid var(--border); }
+  .tree { margin: 0; padding: 1rem 1.1rem 1.2rem; font-size: 0.82rem; line-height: 1.8; color: var(--text-faint); }
+  .tree a { color: var(--text-muted); }
+  .tree a:hover { color: var(--accent); }
+
+  /* Research */
+  .research-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+  .research-card {
+    padding: 1.5rem 1.6rem;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius);
+    background: var(--bg-panel);
+  }
+  .idx { margin: 0 0 0.5rem; font-size: 0.75rem; color: var(--text-faint); }
+  .research-card h3 { margin: 0 0 0.6rem; font-size: 1.15rem; font-weight: 650; }
+  .research-card p:last-child { margin: 0; color: var(--text-muted); }
+
+  /* Projects */
+  .project-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+
+  .all { margin: 1.5rem 0 0; font-size: 0.9rem; }
+
+  /* Log */
+  .log { list-style: none; margin: 0; padding: 0; max-width: 860px; }
+  .log-row {
+    display: grid;
+    grid-template-columns: 5.5rem 1fr;
+    gap: 1rem;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .log-date { color: var(--text-faint); font-size: 0.85rem; padding-top: 0.15rem; }
+  .log-row--award .log-date { color: var(--accent); }
+  .log-text { color: var(--text-muted); }
+  .log-row--award .log-text { color: var(--text); }
+  .log-text .badge { margin-right: 0.6rem; }
+
+  @media (max-width: 860px) {
+    .hero { grid-template-columns: 1fr; }
+    .research-grid, .project-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px) {
+    .hero-body { padding: 1.5rem 1.25rem; }
+    .log-row { grid-template-columns: 1fr; gap: 0.15rem; }
+  }
+</style>

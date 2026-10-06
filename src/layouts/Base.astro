@@ -1,0 +1,188 @@
+---
+import '../styles/global.css';
+import { languages, t, localePath, alternatePath, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  title?: string;
+  description?: string;
+  /** 導覽列上標成「目前位置」的項目 */
+  active?: 'home' | 'projects';
+}
+
+const { lang, title, description, active = 'home' } = Astro.props;
+const other: Lang = lang === 'zh' ? 'en' : 'zh';
+const pageTitle = title ? `${title} · ${t(lang, 'site.title')}` : t(lang, 'site.title');
+const home = localePath(lang, '/');
+const nav = [
+  { key: 'nav.home', href: home, section: 'home' },
+  { key: 'nav.research', href: `${home}#research` },
+  { key: 'nav.projects', href: localePath(lang, '/projects/'), section: 'projects' },
+  { key: 'nav.log', href: `${home}#log` },
+] as const;
+---
+
+<!doctype html>
+<html lang={lang === 'zh' ? 'zh-Hant-TW' : 'en'}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description ?? t(lang, 'site.description')} />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <link rel="alternate" hreflang="zh-Hant" href={new URL(alternatePath(Astro.url.pathname, 'zh'), Astro.site)} />
+    <link rel="alternate" hreflang="en" href={new URL(alternatePath(Astro.url.pathname, 'en'), Astro.site)} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#0b0d0c" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap"
+    />
+
+    <!-- 在畫面繪製前套用主題，避免閃爍 -->
+    <script is:inline>
+      try {
+        const saved = localStorage.getItem('theme');
+        if (saved === 'light' || saved === 'dark') document.documentElement.dataset.theme = saved;
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <a class="skip sr-only" href="#main">Skip to content</a>
+
+    <header class="nav">
+      <div class="container nav-inner">
+        <a class="brand mono" href={home}>terence<span class="at">@</span>portfolio</a>
+
+        <nav aria-label="primary">
+          <ul class="nav-links mono">
+            {
+              nav.map((item) => (
+                <li>
+                  <a href={item.href} aria-current={'section' in item && item.section === active ? 'page' : undefined}>
+                    ~/{t(lang, item.key)}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+
+        <div class="nav-tools mono">
+          <a class="tool" href={alternatePath(Astro.url.pathname, other)} hreflang={other} title={t(lang, 'lang.switch')}>
+            [{languages[other]}]
+          </a>
+          <button class="tool" type="button" id="theme-toggle" title={t(lang, 'theme.toggle')} aria-label={t(lang, 'theme.toggle')}>
+            [<span class="theme-icon" aria-hidden="true"></span>]
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner mono">
+        <span>© {new Date().getFullYear()} 盧亭潤 Terence Lu</span>
+        <span class="faint">{t(lang, 'footer.built')} · portfolio-os v3</span>
+      </div>
+    </footer>
+
+    <script>
+      const btn = document.getElementById('theme-toggle');
+      btn?.addEventListener('click', () => {
+        const root = document.documentElement;
+        // 預設深色；只有使用者手動切換過才是淺色
+        const next = root.dataset.theme === 'light' ? 'dark' : 'light';
+        root.dataset.theme = next;
+        try {
+          localStorage.setItem('theme', next);
+        } catch {}
+      });
+    </script>
+  </body>
+</html>
+
+<style>
+  .skip:focus {
+    position: fixed; top: 0.5rem; left: 0.5rem; z-index: 200;
+    width: auto; height: auto; clip: auto; padding: 0.5rem 0.75rem;
+    background: var(--accent); color: var(--accent-ink);
+  }
+
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    height: 3.5rem;
+  }
+
+  .brand {
+    color: var(--text);
+    font-weight: 700;
+    font-size: 0.92rem;
+    white-space: nowrap;
+  }
+  .brand:hover { text-decoration: none; color: var(--accent); }
+  .brand .at { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    gap: 1.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 0.85rem;
+  }
+  .nav-links a { color: var(--text-muted); }
+  .nav-links a:hover,
+  .nav-links a[aria-current='page'] { color: var(--text); text-decoration: none; }
+  .nav-links a[aria-current='page']::before { content: '▸ '; color: var(--accent); }
+
+  .nav-tools { margin-left: auto; display: flex; gap: 0.25rem; }
+
+  .tool {
+    padding: 0.25rem 0.4rem;
+    border: 0;
+    background: none;
+    color: var(--text-muted);
+    font: inherit;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+  .tool:hover { color: var(--accent); text-decoration: none; }
+
+  .theme-icon::before { content: '☾'; }
+  :global(:root[data-theme='light']) .theme-icon::before { content: '☀'; }
+
+  .footer {
+    margin-top: 6rem;
+    border-top: 1px solid var(--border);
+    padding: 1.75rem 0;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+  .footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1.5rem; }
+  .faint { color: var(--text-faint); }
+
+  @media (max-width: 720px) {
+    .nav-inner { gap: 0.75rem; }
+    nav { order: 3; position: absolute; top: 3.5rem; left: 0; right: 0; background: var(--bg); border-bottom: 1px solid var(--border); }
+    .nav-links { justify-content: space-between; padding: 0.55rem 1.25rem; font-size: 0.8rem; gap: 0.5rem; }
+    main { padding-top: 2.5rem; }
+  }
+</style>

@@ -1,0 +1,108 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ProjectCard from './ProjectCard.astro';
+import { t, tagLabels, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const projects = (await getCollection('projects', (e) => e.id.startsWith(`${lang}/`))).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const slugOf = (id: string) => id.split('/')[1];
+
+// 依 tagLabels 的順序列出有用到的標籤
+const used = new Set(projects.flatMap((p) => p.data.tags));
+const tags = Object.keys(tagLabels[lang]).filter((tag) => used.has(tag));
+const countOf = (tag: string) => projects.filter((p) => p.data.tags.includes(tag)).length;
+---
+
+<Base lang={lang} title={t(lang, 'projects.allTitle')} active="projects">
+  <section class="container page">
+    <div class="section-head">
+      <span class="path">~/projects</span>
+      <h1>{t(lang, 'projects.allTitle')}</h1>
+      <span class="rule"></span>
+      <span class="count mono" id="count">{projects.length}</span>
+    </div>
+    <p class="intro">{t(lang, 'projects.allIntro')}</p>
+
+    <div class="filters mono" role="group" aria-label={t(lang, 'filter.label')}>
+      <button type="button" class="filter" data-tag="" aria-pressed="true">
+        {t(lang, 'filter.all')} <span>{projects.length}</span>
+      </button>
+      {
+        tags.map((tag) => (
+          <button type="button" class="filter" data-tag={tag} aria-pressed="false">
+            {tagLabels[lang][tag]} <span>{countOf(tag)}</span>
+          </button>
+        ))
+      }
+    </div>
+
+    <div class="grid" id="grid">
+      {projects.map((p) => <ProjectCard lang={lang} project={p} slug={slugOf(p.id)} compact />)}
+    </div>
+  </section>
+</Base>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.filter');
+  const cards = document.querySelectorAll<HTMLElement>('#grid > [data-tags]');
+  const count = document.getElementById('count');
+
+  const apply = (tag: string) => {
+    let shown = 0;
+    cards.forEach((card) => {
+      const match = !tag || card.dataset.tags!.split(' ').includes(tag);
+      card.hidden = !match;
+      if (match) shown++;
+    });
+    buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.tag === tag)));
+    if (count) count.textContent = String(shown);
+  };
+
+  buttons.forEach((b) =>
+    b.addEventListener('click', () => {
+      const tag = b.dataset.tag ?? '';
+      apply(tag);
+      history.replaceState(null, '', tag ? `#${tag}` : location.pathname);
+    }),
+  );
+
+  // 支援以 #UAV 這類網址直接開啟篩選
+  const initial = decodeURIComponent(location.hash.slice(1));
+  if ([...buttons].some((b) => b.dataset.tag === initial)) apply(initial);
+</script>
+
+<style>
+  .page { padding-top: 3rem; }
+  .section-head h1 { margin: 0; font-size: 1.6rem; font-weight: 700; letter-spacing: -0.01em; }
+  .count { color: var(--text-faint); font-size: 0.85rem; }
+  .intro { margin: -0.75rem 0 1.5rem; color: var(--text-muted); max-width: 62ch; }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.75rem; }
+  .filter {
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--border-strong);
+    border-radius: 3px;
+    background: transparent;
+    color: var(--text-muted);
+    font: inherit;
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
+  .filter span { color: var(--text-faint); margin-left: 0.2rem; }
+  .filter:hover { border-color: var(--accent); color: var(--text); }
+  .filter[aria-pressed='true'] { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+  .filter[aria-pressed='true'] span { color: var(--accent); }
+
+  .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+
+  @media (max-width: 960px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+</style>

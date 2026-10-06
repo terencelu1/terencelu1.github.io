@@ -1,0 +1,110 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { t, localePath, formatDate, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  project: CollectionEntry<'projects'>;
+  slug: string;
+  /** compact：列表頁用，摘要較短、不顯示技術標籤 */
+  compact?: boolean;
+}
+
+const { lang, project, slug, compact = false } = Astro.props;
+const p = project.data;
+const href = p.hasDetail ? localePath(lang, `/projects/${slug}/`) : undefined;
+const Tag = href ? 'a' : 'article';
+---
+
+<Tag class:list={['card', { 'card--link': href, 'card--compact': compact }]} href={href} data-tags={p.tags.join(' ')}>
+  <div class="card-media">
+    {
+      p.cover ? (
+        <Image src={p.cover} alt="" widths={[480, 800]} sizes="(max-width: 720px) 100vw, 540px" />
+      ) : (
+        <div class="placeholder mono" aria-hidden="true">
+          <span>~/projects/{slug}</span>
+          <span class="cursor" />
+        </div>
+      )
+    }
+  </div>
+  <div class="card-body">
+    <div class="card-meta mono">
+      {p.award && <span class:list={['badge', { 'badge--muted': p.kind !== 'competition' }]}>{p.award}</span>}
+      <span>{p.event}</span>
+      <span class="sep">·</span>
+      <time datetime={p.date.toISOString()}>{formatDate(p.date)}</time>
+    </div>
+    <h3>{p.title}</h3>
+    <p>{p.summary}</p>
+    {!compact && <ul class="chips">{p.stack.slice(0, 4).map((s) => <li>{s}</li>)}</ul>}
+    <div class="card-foot mono">
+      {href ? <span class="more">→ {t(lang, 'projects.more')}</span> : <span class="pending">// {t(lang, 'projects.pending')}</span>}
+    </div>
+  </div>
+</Tag>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    color: var(--text);
+    transition: border-color 0.15s, transform 0.15s;
+  }
+  .card--link:hover {
+    text-decoration: none;
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .card--link:hover .more { text-decoration: underline; text-underline-offset: 3px; }
+  .card[hidden] { display: none; }
+
+  .card-media {
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-raised);
+  }
+  .card-media :global(img) { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; object-position: center top; }
+
+  .placeholder {
+    aspect-ratio: 16 / 9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    font-size: 0.85rem;
+    color: var(--text-faint);
+    background:
+      linear-gradient(var(--border) 1px, transparent 1px) 0 0 / 100% 24px,
+      var(--bg-raised);
+  }
+
+  .card-body { display: flex; flex-direction: column; gap: 0.7rem; padding: 1.25rem 1.35rem 1.35rem; flex: 1; }
+  .card--compact .card-body { gap: 0.55rem; padding: 1.1rem 1.2rem 1.2rem; }
+
+  .card-meta {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem;
+    font-size: 0.78rem; color: var(--text-muted);
+  }
+  .sep { color: var(--text-faint); }
+
+  h3 { margin: 0; font-size: 1.2rem; line-height: 1.4; font-weight: 650; }
+  .card--compact h3 { font-size: 1.08rem; }
+  p { margin: 0; color: var(--text-muted); font-size: 0.96rem; line-height: 1.7; }
+  .card--compact p {
+    font-size: 0.92rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-foot { margin-top: auto; padding-top: 0.4rem; font-size: 0.82rem; }
+  .more { color: var(--accent); }
+  .pending { color: var(--text-faint); }
+</style>
