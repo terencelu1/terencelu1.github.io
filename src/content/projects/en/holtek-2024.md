@@ -7,7 +7,7 @@ summary: A Holtek MCU (BMduino) gathers many sensors over I²C, UART and SPI and
 tags: [AIoT, Embedded, Vision]
 role: Software and firmware
 stack: [Holtek MCU, BMduino, I²C, UART, SPI, HX711, Raspberry Pi 4B, OpenCV, MQTT, Gemini, LINE]
-cover: ../../../assets/projects/holtek-2024/arch.jpg
+cover: ../../../assets/projects/holtek-2024/cover.jpg
 gallery:
   - src: ../../../assets/projects/holtek-2024/arch.jpg
     caption: Architecture — hardware, firmware, software and application layers

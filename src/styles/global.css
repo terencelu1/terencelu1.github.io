@@ -1,8 +1,32 @@
 /* ─── Tokens ─────────────────────────────────────────────
    介面元素（導覽、標籤、數據）用等寬字；內文用一般字型以便閱讀。
-   強調色只用在：獎項、連結、目前位置、游標。 */
+   強調色只用在：獎項、連結、目前位置、游標。
+   預設白底；使用者可切換成深色（存在 localStorage）。 */
 
 :root {
+  /* 預設：白底 */
+  --bg: #fafaf8;
+  --bg-panel: #ffffff;
+  --bg-raised: #f0f0ec;
+  --text: #1b1f1c;
+  --text-muted: #4f5751;
+  --text-faint: #7b827d;
+  --border: #e0e0da;
+  --border-strong: #c6c6be;
+  --accent: #15803d;
+  --accent-soft: rgba(21, 128, 61, 0.09);
+  --accent-ink: #ffffff;
+  --scanline: transparent;
+
+  --font-mono: "JetBrains Mono", "Noto Sans TC", ui-monospace, Consolas, monospace;
+  --font-body: "Inter", "Noto Sans TC", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --measure: 70ch;
+  --radius: 6px;
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
   --bg: #0b0d0c;
   --bg-panel: #121513;
   --bg-raised: #181c19;
@@ -15,29 +39,7 @@
   --accent-soft: rgba(74, 222, 128, 0.12);
   --accent-ink: #052e14;
   --scanline: rgba(255, 255, 255, 0.012);
-
-  --font-mono: "JetBrains Mono", "Noto Sans TC", ui-monospace, Consolas, monospace;
-  --font-body: "Inter", "Noto Sans TC", system-ui, -apple-system, "Segoe UI", sans-serif;
-
-  --measure: 70ch;
-  --radius: 6px;
   color-scheme: dark;
-}
-
-:root[data-theme="light"] {
-  --bg: #f5f4ef;
-  --bg-panel: #ffffff;
-  --bg-raised: #ecebe5;
-  --text: #1b1f1c;
-  --text-muted: #4f5751;
-  --text-faint: #7b827d;
-  --border: #dddcd5;
-  --border-strong: #c4c3bb;
-  --accent: #15803d;
-  --accent-soft: rgba(21, 128, 61, 0.1);
-  --accent-ink: #ffffff;
-  --scanline: transparent;
-  color-scheme: light;
 }
 
 *, *::before, *::after { box-sizing: border-box; }

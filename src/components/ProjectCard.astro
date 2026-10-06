@@ -36,6 +36,7 @@ const Tag = href ? 'a' : 'article';
       <span>{p.event}</span>
       <span class="sep">·</span>
       <time datetime={p.date.toISOString()}>{formatDate(p.date)}</time>
+      {p.links.video && <span class="has-video" title={t(lang, 'project.video')}>▶ {t(lang, 'project.video')}</span>}
     </div>
     <h3>{p.title}</h3>
     <p>{p.summary}</p>
@@ -92,6 +93,7 @@ const Tag = href ? 'a' : 'article';
     font-size: 0.78rem; color: var(--text-muted);
   }
   .sep { color: var(--text-faint); }
+  .has-video { color: var(--accent); }
 
   h3 { margin: 0; font-size: 1.2rem; line-height: 1.4; font-weight: 650; }
   .card--compact h3 { font-size: 1.08rem; }

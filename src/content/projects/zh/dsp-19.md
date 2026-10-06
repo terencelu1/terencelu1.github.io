@@ -11,6 +11,10 @@ cover: ../../../assets/projects/dsp-19/cover.jpg
 gallery:
   - src: ../../../assets/projects/dsp-19/arch.jpg
     caption: 系統架構：硬體層、韌體層、軟體層、應用層
+  - src: ../../../assets/projects/dsp-19/event.jpg
+    caption: 競賽現場的海報與展示
+  - src: ../../../assets/projects/dsp-19/team.jpg
+    caption: 團隊與無人機
   - src: ../../../assets/projects/dsp-19/app.jpg
     caption: App Inventor 請假系統畫面
 links:

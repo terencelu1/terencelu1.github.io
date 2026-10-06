@@ -33,7 +33,7 @@ const nav = [
     <link rel="alternate" hreflang="zh-Hant" href={new URL(alternatePath(Astro.url.pathname, 'zh'), Astro.site)} />
     <link rel="alternate" hreflang="en" href={new URL(alternatePath(Astro.url.pathname, 'en'), Astro.site)} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <meta name="theme-color" content="#0b0d0c" />
+    <meta name="theme-color" content="#fafaf8" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -97,8 +97,8 @@ const nav = [
       const btn = document.getElementById('theme-toggle');
       btn?.addEventListener('click', () => {
         const root = document.documentElement;
-        // 預設深色；只有使用者手動切換過才是淺色
-        const next = root.dataset.theme === 'light' ? 'dark' : 'light';
+        // 預設白底；只有使用者手動切換過才是深色
+        const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
         root.dataset.theme = next;
         try {
           localStorage.setItem('theme', next);
@@ -167,7 +167,7 @@ const nav = [
   .tool:hover { color: var(--accent); text-decoration: none; }
 
   .theme-icon::before { content: '☾'; }
-  :global(:root[data-theme='light']) .theme-icon::before { content: '☀'; }
+  :global(:root[data-theme='dark']) .theme-icon::before { content: '☀'; }
 
   .footer {
     margin-top: 6rem;

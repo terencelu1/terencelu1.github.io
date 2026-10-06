@@ -7,7 +7,7 @@ summary: 以 Holtek MCU（BMduino）整合多組感測器，透過 I²C、UART�
 tags: [AIoT, Embedded, Vision]
 role: 軟體與韌體
 stack: [Holtek MCU, BMduino, I²C, UART, SPI, HX711, Raspberry Pi 4B, OpenCV, MQTT, Gemini, LINE]
-cover: ../../../assets/projects/holtek-2024/arch.jpg
+cover: ../../../assets/projects/holtek-2024/cover.jpg
 gallery:
   - src: ../../../assets/projects/holtek-2024/arch.jpg
     caption: 系統架構：硬體層、韌體層、軟體層、應用層

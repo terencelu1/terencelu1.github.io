@@ -7,12 +7,14 @@ summary: A rover with a robot arm that understands spoken requests through an LL
 tags: [UGV, LLM, Vision, Embedded]
 stack: [Gemini Flash, Python, ESP32, PID, Kalman Filter, OpenCV, gTTS, Live2D]
 role: Everything except line following (LLM command spec, ESP32 firmware, PID and filtering, end-to-end integration)
-cover: ../../../assets/projects/visual-vehicle/arch.jpg
+cover: ../../../assets/projects/visual-vehicle/cover.jpg
 gallery:
   - src: ../../../assets/projects/visual-vehicle/arch.jpg
     caption: Architecture — ESP32, Raspberry Pi 4B, IMU, robot arm and web interface
   - src: ../../../assets/projects/visual-vehicle/vehicle.png
     caption: Voice assistant pipeline — speech-to-text → Gemini → text-to-speech
+  - src: ../../../assets/projects/visual-vehicle/demo.jpg
+    caption: Demo for the judges
 links:
   github: []
 featured: true

@@ -8,6 +8,14 @@ summary: Pick start and end points on a map, get an automatic back-and-forth fli
 tags: [UAV, Vision, Teaching]
 stack: [DroneKit, pygame, OpenCV, SIFT, Raspberry Pi]
 role: Software (path planning, map UI, image stitching) and outreach
+cover: ../../../assets/projects/usr-fishery/cover.jpg
+gallery:
+  - src: ../../../assets/projects/usr-fishery/group.jpg
+    caption: Field session at the fish farm
+  - src: ../../../assets/projects/usr-fishery/field.jpg
+    caption: Drone demo on the school field
+  - src: ../../../assets/projects/usr-fishery/school.jpg
+    caption: Outreach at Qingcao Elementary School
 links:
   github: []
   news: https://www.cna.com.tw/postwrite/chi/402187

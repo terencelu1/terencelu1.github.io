@@ -9,12 +9,18 @@ stack: [DroneKit-SITL, MAVLink, WebSocket, Web UI, Path planning, Mobile app]
 role: System integration and technical lead (SITL, WebSocket, ground-station UI, demo)
 cover: ../../../assets/projects/hackathon-central/cover.jpg
 gallery:
+  - src: ../../../assets/projects/hackathon-central/sim.jpg
+    caption: DroneKit-SITL simulation and ground-station view
   - src: ../../../assets/projects/hackathon-central/ui.png
     caption: Ground station — drone position, planned route and status
   - src: ../../../assets/projects/hackathon-central/arch.jpg
     caption: Architecture
   - src: ../../../assets/projects/hackathon-central/app.jpg
     caption: Mobile app — call a drone and pick a destination
+  - src: ../../../assets/projects/hackathon-central/work.jpg
+    caption: Mid-way through the 30 hours
+  - src: ../../../assets/projects/hackathon-central/team.jpg
+    caption: The team
 links:
   github: []
 featured: false

@@ -8,6 +8,14 @@ summary: 在地圖上點選起終點，系統自動規劃「己」字形航線�
 tags: [UAV, Vision, Teaching]
 stack: [DroneKit, pygame, OpenCV, SIFT, Raspberry Pi]
 role: 軟體開發（航線規劃、地圖介面、影像拼接）與教學推廣
+cover: ../../../assets/projects/usr-fishery/cover.jpg
+gallery:
+  - src: ../../../assets/projects/usr-fishery/group.jpg
+    caption: 魚塭現地教學
+  - src: ../../../assets/projects/usr-fishery/field.jpg
+    caption: 國小操場的無人機示範
+  - src: ../../../assets/projects/usr-fishery/school.jpg
+    caption: 青草國小推廣活動
 links:
   github: []
   news: https://www.cna.com.tw/postwrite/chi/402187

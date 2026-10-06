@@ -7,12 +7,14 @@ summary: 結合無人車與機械手臂，用大語言模型理解口語指令�
 tags: [UGV, LLM, Vision, Embedded]
 stack: [Gemini Flash, Python, ESP32, PID, Kalman Filter, OpenCV, gTTS, Live2D]
 role: 視覺循線以外的全系統（LLM 指令規格、ESP32 韌體、PID 與濾波、整體串接）
-cover: ../../../assets/projects/visual-vehicle/arch.jpg
+cover: ../../../assets/projects/visual-vehicle/cover.jpg
 gallery:
   - src: ../../../assets/projects/visual-vehicle/arch.jpg
     caption: 系統架構：ESP32、Raspberry Pi 4B、IMU、機械手臂與網頁介面
   - src: ../../../assets/projects/visual-vehicle/vehicle.png
     caption: 語音助理架構：語音辨識 → Gemini → 語音合成
+  - src: ../../../assets/projects/visual-vehicle/demo.jpg
+    caption: 向評審展示
 links:
   github: []
 featured: true

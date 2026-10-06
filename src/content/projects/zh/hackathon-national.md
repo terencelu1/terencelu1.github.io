@@ -10,8 +10,12 @@ cover: ../../../assets/projects/hackathon-national/cover.jpg
 gallery:
   - src: ../../../assets/projects/hackathon-national/arch.jpg
     caption: 系統架構
+  - src: ../../../assets/projects/hackathon-national/map.jpg
+    caption: 標示 A、B 站點的示範地圖
   - src: ../../../assets/projects/hackathon-national/demo.jpg
     caption: 以 AprilTag 標記的示範地圖
+  - src: ../../../assets/projects/hackathon-national/pitch.jpg
+    caption: 全國賽簡報
 links:
   github: []
   video: https://www.youtube.com/live/SbkAAlBGK-s?t=11878

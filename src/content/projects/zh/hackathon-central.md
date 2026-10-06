@@ -9,12 +9,18 @@ stack: [DroneKit-SITL, MAVLink, WebSocket, Web UI, 路徑規劃, 手機 App]
 role: 系統整合與技術負責（SITL 模擬、WebSocket、中控介面、Demo）
 cover: ../../../assets/projects/hackathon-central/cover.jpg
 gallery:
+  - src: ../../../assets/projects/hackathon-central/sim.jpg
+    caption: DroneKit-SITL 模擬飛行與地面站畫面
   - src: ../../../assets/projects/hackathon-central/ui.png
     caption: 中控畫面：無人機位置、規劃路線與狀態
   - src: ../../../assets/projects/hackathon-central/arch.jpg
     caption: 系統架構
   - src: ../../../assets/projects/hackathon-central/app.jpg
     caption: 手機 App：呼叫無人機並選擇目的地
+  - src: ../../../assets/projects/hackathon-central/work.jpg
+    caption: 30 小時開發中
+  - src: ../../../assets/projects/hackathon-central/team.jpg
+    caption: 團隊合照
 links:
   github: []
 featured: false

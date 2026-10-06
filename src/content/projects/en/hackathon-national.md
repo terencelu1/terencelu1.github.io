@@ -10,8 +10,12 @@ cover: ../../../assets/projects/hackathon-national/cover.jpg
 gallery:
   - src: ../../../assets/projects/hackathon-national/arch.jpg
     caption: Architecture
+  - src: ../../../assets/projects/hackathon-national/map.jpg
+    caption: Demo map with stops A and B
   - src: ../../../assets/projects/hackathon-national/demo.jpg
     caption: Demo map marked with AprilTags
+  - src: ../../../assets/projects/hackathon-national/pitch.jpg
+    caption: Presenting at the national final
 links:
   github: []
   video: https://www.youtube.com/live/SbkAAlBGK-s?t=11878

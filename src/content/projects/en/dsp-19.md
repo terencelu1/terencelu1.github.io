@@ -11,6 +11,10 @@ cover: ../../../assets/projects/dsp-19/cover.jpg
 gallery:
   - src: ../../../assets/projects/dsp-19/arch.jpg
     caption: Architecture — hardware, firmware, software and application layers
+  - src: ../../../assets/projects/dsp-19/event.jpg
+    caption: Poster and demo at the competition
+  - src: ../../../assets/projects/dsp-19/team.jpg
+    caption: The team with the drone
   - src: ../../../assets/projects/dsp-19/app.jpg
     caption: Leave-request app built with App Inventor
 links:

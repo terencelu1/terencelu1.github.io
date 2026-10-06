@@ -46,6 +46,7 @@ export const ui = {
     'project.role': '負責',
     'project.links': '連結',
     'project.gallery': '畫面',
+    'project.video': '影片',
     'boot.skip': '按任意鍵略過',
     'footer.built': '以 Astro 建置',
   },
@@ -93,6 +94,7 @@ export const ui = {
     'project.role': 'Role',
     'project.links': 'Links',
     'project.gallery': 'Screens',
+    'project.video': 'Video',
     'boot.skip': 'press any key to skip',
     'footer.built': 'Built with Astro',
   },
@@ -137,6 +139,18 @@ export function localePath(lang: Lang, path: string): string {
 export function alternatePath(pathname: string, target: Lang): string {
   const bare = pathname.replace(/^\/en(?=\/|$)/, '') || '/';
   return localePath(target, bare);
+}
+
+/** 從 YouTube 網址取出影片 ID 與起始秒數，轉成內嵌網址 */
+export function youtubeEmbed(url: string): string | undefined {
+  const u = new URL(url);
+  const id =
+    u.hostname === 'youtu.be'
+      ? u.pathname.slice(1)
+      : u.searchParams.get('v') ?? u.pathname.match(/^\/(?:live|embed|shorts)\/([\w-]{11})/)?.[1];
+  if (!id) return undefined;
+  const start = u.searchParams.get('t') ?? u.searchParams.get('start');
+  return `https://www.youtube-nocookie.com/embed/${id}${start ? `?start=${parseInt(start, 10)}` : ''}`;
 }
 
 export function formatDate(date: Date): string {
