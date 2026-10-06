@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 import Boot from './Boot.astro';
 import ProjectCard from './ProjectCard.astro';
 import { log, awardCount } from '../data/log';
-import { t, localePath, type Lang } from '../i18n/ui';
+import { t, localePath, EMAIL, GITHUB, type Lang } from '../i18n/ui';
 
 interface Props {
   lang: Lang;
@@ -63,7 +63,8 @@ const bootLines = [
       <pre class="tree mono">~/
 ├── <a href="#research">research/</a>
 ├── <a href={localePath(lang, '/projects/')}>projects/</a>
-└── <a href="#log">log/</a></pre>
+├── <a href="#log">log/</a>
+└── <a href="#contact">contact/</a></pre>
     </aside>
   </section>
 
@@ -122,6 +123,34 @@ const bootLines = [
       }
     </ol>
   </section>
+
+  <!-- ─── Contact ──────────────────────────────────── -->
+  <section class="container section" id="contact">
+    <div class="section-head">
+      <span class="path">~/contact</span>
+      <h2>{t(lang, 'contact.title')}</h2>
+      <span class="rule"></span>
+    </div>
+    <div class="window contact">
+      <div class="window-bar">
+        <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+        <span>mail</span>
+      </div>
+      <div class="window-body">
+        <p class="contact-body">{t(lang, 'contact.body')}</p>
+        <p class="contact-line mono">
+          <span class="ps1">$</span> mail{' '}
+          <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+          <button type="button" class="copy mono" id="copy-email" data-email={EMAIL} data-done={t(lang, 'contact.copied')}>
+            [{t(lang, 'contact.copy')}]
+          </button>
+        </p>
+        <p class="contact-line mono">
+          <span class="ps1">$</span> open{' '}<a href={GITHUB}>github.com/terencelu1</a>
+        </p>
+      </div>
+    </div>
+  </section>
 </Base>
 
 <script>
@@ -136,6 +165,16 @@ const bootLines = [
   const tick = () => clock && (clock.textContent = `${fmt.format(new Date())} UTC+8`);
   tick();
   setInterval(tick, 1000);
+
+  const copy = document.getElementById('copy-email');
+  copy?.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(copy.dataset.email!);
+      const label = copy.textContent;
+      copy.textContent = `[${copy.dataset.done}]`;
+      setTimeout(() => (copy.textContent = label), 1500);
+    } catch {}
+  });
 </script>
 
 <style>
@@ -210,6 +249,22 @@ const bootLines = [
   .log-text { color: var(--text-muted); }
   .log-row--award .log-text { color: var(--text); }
   .log-text .badge { margin-right: 0.6rem; }
+
+  /* Contact */
+  .contact { max-width: 860px; }
+  .contact-body { margin: 0 0 1rem; color: var(--text-muted); }
+  .contact-line { margin: 0.35rem 0; font-size: 0.95rem; overflow-wrap: anywhere; }
+  .contact-line .ps1 { margin-right: 0.5rem; }
+  .copy {
+    margin-left: 0.5rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--text-faint);
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
+  .copy:hover { color: var(--accent); }
 
   @media (max-width: 860px) {
     .hero { grid-template-columns: 1fr; }

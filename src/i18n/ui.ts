@@ -1,3 +1,6 @@
+export const EMAIL = 'terencelu.taiwan@gmail.com';
+export const GITHUB = 'https://github.com/terencelu1';
+
 export const languages = { zh: '中', en: 'EN' } as const;
 export type Lang = keyof typeof languages;
 
@@ -9,6 +12,7 @@ export const ui = {
     'nav.research': 'research',
     'nav.projects': 'projects',
     'nav.log': 'log',
+    'nav.contact': 'contact',
     'theme.toggle': '切換深淺色',
     'lang.switch': '切換語言',
     'hero.role': '碩士生 · 毫米波雷達 × 邊緣運算',
@@ -39,6 +43,10 @@ export const ui = {
     'project.prev': '較新',
     'project.next': '較舊',
     'log.title': '經歷',
+    'contact.title': '聯絡',
+    'contact.body': '研究合作、專案或任何問題，都歡迎來信。',
+    'contact.copy': '複製',
+    'contact.copied': '已複製',
     'project.back': '回首頁',
     'project.event': '競賽',
     'project.date': '日期',
@@ -57,6 +65,7 @@ export const ui = {
     'nav.research': 'research',
     'nav.projects': 'projects',
     'nav.log': 'log',
+    'nav.contact': 'contact',
     'theme.toggle': 'Toggle light / dark',
     'lang.switch': 'Switch language',
     'hero.role': "Master's student · mmWave radar × Edge computing",
@@ -87,6 +96,10 @@ export const ui = {
     'project.prev': 'newer',
     'project.next': 'older',
     'log.title': 'Log',
+    'contact.title': 'Contact',
+    'contact.body': 'Research collaboration, projects or questions — feel free to email me.',
+    'contact.copy': 'copy',
+    'contact.copied': 'copied',
     'project.back': 'Back home',
     'project.event': 'Event',
     'project.date': 'Date',
