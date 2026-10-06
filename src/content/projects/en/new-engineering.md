@@ -8,7 +8,6 @@ summary: Teaching material for the Ministry of Education New Engineering Educati
 tags: [Vision, Embedded, Teaching]
 stack: [YOLOv5n, Google Speech API, Python threading, Arduino, Elephant Robotics arm, Raspberry Pi]
 role: Built almost entirely on my own — model training and deployment, speech, Arduino firmware, integration
-cover: ../../../assets/projects/new-engineering/cover.jpg
 gallery:
   - src: ../../../assets/projects/new-engineering/arm.jpg
     caption: Arm joint and servo

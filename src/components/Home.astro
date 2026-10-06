@@ -111,15 +111,21 @@ const bootLines = [
     </div>
     <ol class="log">
       {
-        log.map((e) => (
-          <li class:list={['log-row', `log-row--${e.kind}`]}>
-            <span class="log-date mono">{e.date}</span>
-            <span class="log-text">
-              {e.award && <span class="badge">{e.award[lang]}</span>}
-              {e.text[lang]}
-            </span>
-          </li>
-        ))
+        log.map((e) => {
+          const Row = e.slug ? 'a' : 'div';
+          return (
+            <li class:list={['log-row', `log-row--${e.kind}`]}>
+              <Row class="log-inner" href={e.slug ? localePath(lang, `/projects/${e.slug}/`) : undefined}>
+                <span class="log-date mono">{e.date}</span>
+                <span class="log-text">
+                  {e.award && <span class="badge">{e.award[lang]}</span>}
+                  {e.text[lang]}
+                </span>
+                {e.slug && <span class="log-go mono" aria-hidden="true">→</span>}
+              </Row>
+            </li>
+          );
+        })
       }
     </ol>
   </section>
@@ -237,13 +243,19 @@ const bootLines = [
 
   /* Log */
   .log { list-style: none; margin: 0; padding: 0; max-width: 860px; }
-  .log-row {
+  .log-row { border-bottom: 1px solid var(--border); }
+  .log-inner {
     display: grid;
-    grid-template-columns: 5.5rem 1fr;
+    grid-template-columns: 5.5rem 1fr 1.5rem;
     gap: 1rem;
-    padding: 0.7rem 0;
-    border-bottom: 1px solid var(--border);
+    padding: 0.7rem 0.5rem;
+    margin: 0 -0.5rem;
+    border-radius: 4px;
+    color: inherit;
   }
+  a.log-inner:hover { text-decoration: none; background: var(--accent-soft); }
+  a.log-inner:hover .log-go { color: var(--accent); transform: translateX(2px); }
+  .log-go { color: var(--text-faint); text-align: right; transition: transform 0.15s; }
   .log-date { color: var(--text-faint); font-size: 0.85rem; padding-top: 0.15rem; }
   .log-row--award .log-date { color: var(--accent); }
   .log-text { color: var(--text-muted); }
@@ -272,6 +284,7 @@ const bootLines = [
   }
   @media (max-width: 520px) {
     .hero-body { padding: 1.5rem 1.25rem; }
-    .log-row { grid-template-columns: 1fr; gap: 0.15rem; }
+    .log-inner { grid-template-columns: 1fr 1.5rem; gap: 0.15rem 0.5rem; }
+    .log-date { grid-column: 1 / -1; }
   }
 </style>

@@ -8,7 +8,6 @@ summary: 為教育部新工程教育計畫開發機械手臂教案：YOLOv5n 在
 tags: [Vision, Embedded, Teaching]
 stack: [YOLOv5n, Google Speech API, Python threading, Arduino, 大象機械手臂, Raspberry Pi]
 role: 幾乎獨立完成：模型訓練與部署、語音模組、Arduino 韌體、系統整合
-cover: ../../../assets/projects/new-engineering/cover.jpg
 gallery:
   - src: ../../../assets/projects/new-engineering/arm.jpg
     caption: 機械手臂關節與伺服馬達
