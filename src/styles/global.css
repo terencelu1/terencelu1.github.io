@@ -18,8 +18,8 @@
   --accent-ink: #ffffff;
   --scanline: transparent;
 
-  --font-mono: "JetBrains Mono", "Noto Sans TC", ui-monospace, Consolas, "PingFang TC", "Microsoft JhengHei", monospace;
-  --font-body: "Inter", "Noto Sans TC", system-ui, -apple-system, "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Consolas, "PingFang TC", "Noto Sans CJK TC", "Microsoft JhengHei", monospace;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", "PingFang TC", "Noto Sans CJK TC", "Microsoft JhengHei", sans-serif;
 
   --measure: 70ch;
   --radius: 6px;
