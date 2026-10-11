@@ -10,16 +10,16 @@
   --bg-raised: #f0f0ec;
   --text: #1b1f1c;
   --text-muted: #4f5751;
-  --text-faint: #7b827d;
+  --text-faint: #676e69; /* 對比 ≥ 4.5:1（WCAG AA） */
   --border: #e0e0da;
   --border-strong: #c6c6be;
-  --accent: #15803d;
-  --accent-soft: rgba(21, 128, 61, 0.09);
+  --accent: #127137;
+  --accent-soft: rgba(18, 113, 55, 0.09);
   --accent-ink: #ffffff;
   --scanline: transparent;
 
-  --font-mono: "JetBrains Mono", "Noto Sans TC", ui-monospace, Consolas, monospace;
-  --font-body: "Inter", "Noto Sans TC", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "Noto Sans TC", ui-monospace, Consolas, "PingFang TC", "Microsoft JhengHei", monospace;
+  --font-body: "Inter", "Noto Sans TC", system-ui, -apple-system, "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif;
 
   --measure: 70ch;
   --radius: 6px;
@@ -32,7 +32,7 @@
   --bg-raised: #181c19;
   --text: #e6e8e6;
   --text-muted: #a3aaa5;
-  --text-faint: #6f7772;
+  --text-faint: #848b86;
   --border: #262b28;
   --border-strong: #3a413c;
   --accent: #4ade80;

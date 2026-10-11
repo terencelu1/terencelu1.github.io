@@ -21,7 +21,7 @@ const Tag = href ? 'a' : 'article';
   <div class="card-media">
     {
       p.cover ? (
-        <Image src={p.cover} alt="" widths={[480, 800]} sizes="(max-width: 720px) 100vw, 540px" />
+        <Image src={p.cover} alt="" widths={[400, 720, 1080]} sizes="(max-width: 720px) calc(100vw - 2.5rem), 540px" quality={70} />
       ) : (
         <div class="placeholder mono" aria-hidden="true">
           <span>~/projects/{slug}</span>
