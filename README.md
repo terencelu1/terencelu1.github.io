@@ -21,3 +21,5 @@ npm run build    # 輸出到 dist/
 - `src/i18n/ui.ts` — 介面文字（中 / 英）
 - `src/data/log.ts` — 首頁經歷時間軸
 - `src/styles/global.css` — 色彩、字型等設計 token
+- `src/lib/llms.ts` — 產生 `/llms.txt`、`/llms-full.txt`（給 AI 讀的純文字版，從作品 Markdown 自動生成）
+- `public/robots.txt` — 允許搜尋引擎與 AI 爬蟲，並指向 sitemap（`@astrojs/sitemap` 自動產生）

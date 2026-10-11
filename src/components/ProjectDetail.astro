@@ -30,9 +30,21 @@ const heroCaption = p.gallery.find((g) => g.src.src === hero?.src)?.caption;
 const rest = p.gallery.filter((g) => g.src.src !== hero?.src);
 const video = p.links.video ? youtubeEmbed(p.links.video) : undefined;
 const hrefOf = (e: CollectionEntry<'projects'>) => localePath(lang, `/projects/${e.id.split('/')[1]}/`);
+
+const schema = {
+  '@type': 'CreativeWork',
+  name: p.title,
+  description: p.summary,
+  url: new URL(Astro.url.pathname, Astro.site).href,
+  dateCreated: p.date.toISOString().slice(0, 10),
+  inLanguage: lang === 'zh' ? 'zh-Hant-TW' : 'en',
+  keywords: [...p.tags, ...p.stack].join(', '),
+  author: { '@id': `${Astro.site!.origin}/#person` },
+  ...(p.award && { award: `${p.event} ${p.award}` }),
+};
 ---
 
-<Base lang={lang} title={p.title} description={p.summary} active="projects">
+<Base lang={lang} title={p.title} description={p.summary} active="projects" schema={schema}>
   <article class="container detail">
     <p class="crumb mono">
       <a href={localePath(lang, '/')}>~</a>/<a href={projectsHref}>projects</a>/<span>{slug}</span>
